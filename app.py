@@ -14,7 +14,11 @@ from tkinter import (
     DISABLED,
     NORMAL,
 )
-
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives import hashes
+from base64 import urlsafe_b64encode
+from tkinter.simpledialog import askstring
+import os
 from cryptography.fernet import Fernet
 
 # ---------------- Logging ----------------
