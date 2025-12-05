@@ -6,6 +6,7 @@ from tkinter import (
     Tk,
     Button,
     Label,
+    Frame,
     StringVar,
     Radiobutton,
     filedialog,
@@ -13,6 +14,7 @@ from tkinter import (
     DISABLED,
     NORMAL,
 )
+
 from cryptography.fernet import Fernet
 
 # ---------------- Logging ----------------
@@ -125,60 +127,64 @@ class EncryptorApp:
         Label(
             self.root,
             text="🔐 File Encryptor & Decryptor",
-            font=("Segoe UI", 14, "bold"),
-        ).pack(pady=10)
+            font=("Segoe UI", 15, "bold"),
+        ).pack(pady=12)
 
         # File label
-        self.file_label = Label(
-            self.root,
-            textvariable=self.file_path,
-            wraplength=480,
-            justify="center",
-            fg="#444",
-        )
-        self.file_label.pack(pady=5)
+        Label(self.root, textvariable=self.file_path, fg="#555").pack(pady=4)
 
         # Browse button
         Button(
             self.root,
             text="Browse File",
             command=self.browse_file,
-            width=20,
-        ).pack(pady=5)
+            width=18,
+            relief="ridge",
+            bg="#e8e8e8",
+        ).pack(pady=6)
 
-        # Mode selection (Encrypt / Decrypt)
-        Label(self.root, text="Mode:", font=("Segoe UI", 10, "bold")).pack(pady=(10, 0))
-
-        mode_frame_y = 140
-        Radiobutton(
+        # Mode label
+        Label(
             self.root,
-            text="Encrypt",
-            value="encrypt",
-            variable=self.mode,
-        ).place(x=190, y=mode_frame_y)
-        Radiobutton(
-            self.root,
-            text="Decrypt",
-            value="decrypt",
-            variable=self.mode,
-        ).place(x=280, y=mode_frame_y)
+            text="Select Mode",
+            font=("Segoe UI", 11, "bold")
+        ).pack(pady=(10, 0))
 
-        # Action & Exit buttons
+        # Frame for radio buttons
+        mode_frame = Frame(self.root)
+        mode_frame.pack(pady=5)
+
+        Radiobutton(
+            mode_frame, text="Encrypt", value="encrypt",
+            variable=self.mode, font=("Segoe UI", 10)
+        ).grid(row=0, column=0, padx=10)
+
+        Radiobutton(
+            mode_frame, text="Decrypt", value="decrypt",
+            variable=self.mode, font=("Segoe UI", 10)
+        ).grid(row=0, column=1, padx=10)
+
+        # Run button
         self.run_button = Button(
             self.root,
             text="Run",
             command=self.run_action,
             width=12,
             state=DISABLED,
+            bg="#dcdcdc",
         )
-        self.run_button.pack(pady=20)
+        self.run_button.pack(pady=15)
 
+        # Exit button
         Button(
             self.root,
             text="Exit",
             command=self.root.quit,
             width=10,
-        ).pack()
+            bg="#f5f5f5",
+            relief="ridge",
+        ).pack(pady=(0, 8))
+
 
     def browse_file(self):
         path = filedialog.askopenfilename(
